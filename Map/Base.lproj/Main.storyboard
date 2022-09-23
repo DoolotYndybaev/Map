@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Map" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="E1T-oh-RzS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="596"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JKI-M1-t6E">
+                                <rect key="frame" x="157" y="762" width="100" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ILT-yS-rdE"/>
+                                    <constraint firstAttribute="height" constant="50" id="dRQ-Q7-UhP"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Start">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="30"/>
+                                    <color key="baseForegroundColor" systemColor="systemRedColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="startButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VPT-39-tIn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzf-Qa-wD3">
+                                <rect key="frame" x="141.5" y="684" width="131" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="J6e-Oy-KBo"/>
+                                    <constraint firstAttribute="height" constant="70" id="vFg-Ae-a7b"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Open Video">
+                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="20"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="openVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vEi-SA-EY8"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="E1T-oh-RzS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="McZ-SI-7Jv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JKI-M1-t6E" secondAttribute="bottom" constant="50" id="X1J-vJ-oGK"/>
+                            <constraint firstItem="JKI-M1-t6E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="g2B-5z-AiX"/>
+                            <constraint firstItem="bzf-Qa-wD3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m7B-kN-tw3"/>
+                            <constraint firstItem="E1T-oh-RzS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="mZ6-5p-dyz"/>
+                            <constraint firstItem="E1T-oh-RzS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nYa-bv-oe1"/>
+                            <constraint firstAttribute="bottom" secondItem="E1T-oh-RzS" secondAttribute="bottom" constant="300" id="pni-l1-aBy"/>
+                            <constraint firstItem="JKI-M1-t6E" firstAttribute="top" secondItem="bzf-Qa-wD3" secondAttribute="bottom" constant="8" symbolic="YES" id="qYz-we-iI0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="E1T-oh-RzS" id="Dlb-Ap-U5h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
