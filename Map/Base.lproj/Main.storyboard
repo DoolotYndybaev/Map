@@ -49,22 +49,57 @@
                                     <action selector="openVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vEi-SA-EY8"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="W0J-4J-wUF">
+                                <rect key="frame" x="122" y="604" width="170" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7M5-Jl-GSM">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="G6D-99-7rf"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Lzs-kD-zX6"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Record"/>
+                                        <connections>
+                                            <action selector="recordTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6rG-QP-CKa"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFX-Be-DiA">
+                                        <rect key="frame" x="90" y="0.0" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="BmV-gy-di8"/>
+                                            <constraint firstAttribute="height" constant="80" id="x6z-wS-uiC"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Play"/>
+                                        <connections>
+                                            <action selector="playAct:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vii-QP-zRG"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="E1T-oh-RzS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="McZ-SI-7Jv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="W0J-4J-wUF" secondAttribute="trailing" constant="122" id="Se4-Oc-qR8"/>
+                            <constraint firstItem="W0J-4J-wUF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="122" id="U8R-3i-ydM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JKI-M1-t6E" secondAttribute="bottom" constant="50" id="X1J-vJ-oGK"/>
+                            <constraint firstItem="W0J-4J-wUF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="chf-WO-wjv"/>
                             <constraint firstItem="JKI-M1-t6E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="g2B-5z-AiX"/>
                             <constraint firstItem="bzf-Qa-wD3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m7B-kN-tw3"/>
                             <constraint firstItem="E1T-oh-RzS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="mZ6-5p-dyz"/>
                             <constraint firstItem="E1T-oh-RzS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nYa-bv-oe1"/>
                             <constraint firstAttribute="bottom" secondItem="E1T-oh-RzS" secondAttribute="bottom" constant="300" id="pni-l1-aBy"/>
                             <constraint firstItem="JKI-M1-t6E" firstAttribute="top" secondItem="bzf-Qa-wD3" secondAttribute="bottom" constant="8" symbolic="YES" id="qYz-we-iI0"/>
+                            <constraint firstItem="W0J-4J-wUF" firstAttribute="top" secondItem="E1T-oh-RzS" secondAttribute="bottom" constant="8" symbolic="YES" id="zr9-08-aCX"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="E1T-oh-RzS" id="Dlb-Ap-U5h"/>
+                        <outlet property="playBTN" destination="iFX-Be-DiA" id="yTO-qd-RNW"/>
+                        <outlet property="recordBTN" destination="7M5-Jl-GSM" id="10K-u8-jgZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

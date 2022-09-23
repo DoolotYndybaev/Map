@@ -14,6 +14,16 @@ import AVFoundation
 
 class ViewController: UIViewController, UINavigationControllerDelegate {
     // Record
+    @IBOutlet weak var recordBTN: UIButton!
+    @IBOutlet weak var playBTN: UIButton!
+
+
+    
+    var fileName = "audioFile.m4a"
+
+    var soundRecorder: AVAudioRecorder!
+    var soundPlayer: AVAudioPlayer?
+    var recordingSession: AVAudioSession = AVAudioSession.sharedInstance()
     
     // Video
     var videoAndImageReview = UIImagePickerController()
@@ -27,7 +37,30 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         checkLocationAuthorization()
+        
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setActive(true)
+            
+            recordingSession.requestRecordPermission {[weak self] state in
+                DispatchQueue.main.async {
+                    if state {
+                        self?.recordBTN.isHidden = false
+                    } else {
+                        self?.recordBTN.isHidden = true
+                    }
+                }
+            }
+            
+        } catch let err {
+            print("Error with recording session \(err.localizedDescription)")
+        }
+        initAudioRecord()
+        //        setupRecorder()
+        //               playBTN.isEnabled = false
     }
     
     private func checkLocationServices() {
@@ -117,7 +150,31 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         print("videoURL:\(String(describing: videoURL))")
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    private func finishRecord() {
+        soundRecorder.stop()
+        
+        recordBTN.setTitle("Record", for: .normal)
+    }
+    
+    private func initAudioRecord() {
+        let audioFilename = getDocumentsDirectory().appendingPathComponent(fileName)
+        let recordSetting = [ AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
+                   AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue,
+                      AVNumberOfChannelsKey : 1,
+                            AVSampleRateKey : 12000] as [String : Any]
+        
+        do {
+            soundRecorder = try AVAudioRecorder(url: audioFilename, settings: recordSetting )
+            soundRecorder.delegate = self
+            
+            
+            
+        } catch {
+            print(error)
+            
+        }
+    }
 }
 
 
@@ -137,10 +194,10 @@ extension ViewController: UIImagePickerControllerDelegate {
         
         dismiss(animated: true)
         guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String,
-            mediaType == (kUTTypeMovie as String),
-            let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
-            UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
-            else { return }
+              mediaType == (kUTTypeMovie as String),
+              let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+              UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
+        else { return }
         UISaveVideoAtPathToSavedPhotosAlbum(url.path,
                                             self,
                                             #selector(video(_:didFinishSavingWithError:contextInfo:)),
@@ -156,3 +213,113 @@ extension ViewController: UIImagePickerControllerDelegate {
     }
 }
 
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}
+
+extension ViewController:  AVAudioPlayerDelegate, AVAudioRecorderDelegate  {
+    
+    func setupRecorder() {
+        let recordSettings = [ AVFormatIDKey : kAudioFormatAppleLossless,
+                    AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+                         AVEncoderBitRateKey : 320000,
+                       AVNumberOfChannelsKey : 2,
+                             AVSampleRateKey : 44100.2] as [String : Any]
+        
+        soundRecorder = try! AVAudioRecorder(url: getFileURL() as URL, settings: recordSettings)
+        
+        soundRecorder.delegate = self
+        soundRecorder.prepareToRecord()
+        
+        
+    }
+    func getPathDirectory() -> String{
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+
+        return path[0]
+    }
+    func getFileURL() -> NSURL {
+        let path = getPathDirectory().appending(fileName)
+
+        let filePath = NSURL(fileURLWithPath: path)
+
+        return filePath
+    }
+    func setupPlayer() {
+            let audioFilename = getDocumentsDirectory().appendingPathComponent(fileName)
+            do {
+                soundPlayer = try AVAudioPlayer(contentsOf: audioFilename)
+                soundPlayer?.delegate = self
+                soundPlayer?.prepareToPlay()
+                soundPlayer?.volume = 1.0
+            } catch {
+                print(error)
+            }
+        }
+
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: getDocumentsDirectory().path , withExtension: "m4a") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            soundPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            guard let player = soundPlayer else { return }
+
+                    player.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    @IBAction func recordTapped(_ sender: UIButton) {
+
+        if !soundRecorder.isRecording {
+            
+            soundRecorder.record()
+            recordBTN.setTitle("Stop", for: .normal)
+            playBTN.isEnabled = false
+        } else {
+            
+            finishRecord()
+            sender.setTitle("Record", for: .normal)
+            playBTN.isEnabled = true
+        }
+    }
+    @IBAction func playAct(_ sender: UIButton) {
+        if sender.titleLabel?.text == "Play" {
+            recordBTN.isEnabled = false
+            sender.setTitle("Stop", for: .normal)
+            playSound()
+            soundPlayer?.play()
+        } else {
+            soundPlayer?.stop()
+            sender.setTitle("Play", for: .normal)
+            recordBTN.isEnabled = true
+        }
+    }
+    func preparePlayer() {
+        soundPlayer = try? AVAudioPlayer(contentsOf: getFileURL() as URL)
+        soundPlayer?.delegate = self
+        soundPlayer?.prepareToPlay()
+        soundPlayer?.volume = 1.0
+        
+    }
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        
+        if !flag {
+            playBTN.isEnabled = true
+            finishRecord()
+        }
+    }
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        recordBTN.isEnabled = true
+        recordBTN.setTitle("Play", for: .normal)
+    }
+    
+}
